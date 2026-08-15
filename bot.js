@@ -192,7 +192,7 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
         return msg.channel.send(`**:shield: |** O usuário <@${user_id}> é um admin! Não posso expulsar quem manda aqui!`);
       }
       await member.kick(reason);
-      await msg.channel.send(`**:hammer: |** Você está prestes a chutar da bunda do <@${user_id}> do seu servidor pelo motivo \`${reason}\`!`);
+      await msg.channel.send(`**:hammer: |** Você está prestes a chutar da bunda do <@${user_id}> do seu servidor pelo motivo \`${reason}\`!\n**:tada: |** Usuário punido. Ninguém mandou quebrar as regras, seu boboca!`);
     } catch (e) { await msg.channel.send(`❌ Erro: ${e.message}`); }
   }},
 
@@ -209,7 +209,7 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
         return msg.channel.send(`**:shield: |** O usuário <@${user_id}> é um admin! Não posso banir quem manda aqui!`);
       }
       await member.ban({ reason });
-      await msg.channel.send(`**:hammer: |** Você está prestes a banir <@${user_id}> do seu servidor pelo motivo \`${reason}\`!`);
+      await msg.channel.send(`**:hammer: |** Você está prestes a banir <@${user_id}> do seu servidor pelo motivo \`${reason}\`!\n**:tada: |** Usuário punido. Ninguém mandou quebrar as regras, seu boboca!`);
     } catch (e) { await msg.channel.send(`❌ Erro: ${e.message}`); }
   }},
 
