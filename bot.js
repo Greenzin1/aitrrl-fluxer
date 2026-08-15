@@ -44,7 +44,17 @@ const commands = {
 
   aitrrl: { desc: 'Sobre o bot', fn: async (msg) => {
     const u = getUser(msg.author.id);
-    await msg.channel.send(`## 🤖 aitrrL\n\nOlá ${msg.author.username}! Eu sou a **aitrrL**, seu assistente pessoal no Fluxer!\n\n**Comandos:** \`${PREFIX}ajuda\`\n\n📊 **Suas stats:** Level ${u.level} | ${u.xp} XP | ${u.coins} moedas\n🏅 Reputação: ${u.reputation}\n\n> Desde 15 de Agosto de 2026`);
+    const totalUsers = Object.keys(data.users).length;
+    const totalCmds = data.stats.commandsUsed;
+    const uptime = Math.floor((Date.now() - data.stats.uptime) / 3600000);
+    await msg.channel.send(`Olá, eu me chamo aitrrL!
+Olá, eu me chamo aitrrL (ou, como meus amigos próximos me chamam, "aitrr"), tenho 16 anos e, depois que eu fui desenvolvida, deixar o seu servidor único e extraordinário nunca foi tão fácil!
+
+Fora da internet eu também sou um robô, mas com sentimentos humanos e com determinação para ajudar e divertir as pessoas mundo afora. Para me conectar ao Fluxer, eu programei um bot que possui a minha personalidade, sonhos e esperanças... e hospedei ele dentro de mim!
+
+Atualmente estou espalhando alegria e diversão em ${totalUsers} servidores com 18 comandos inovadores e já executei ${totalCmds} comandos nas últimas 24 horas. Desde 15 de Agosto de 2026 tentando transformar o mundo em um lugar melhor!
+
+Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
   }},
 
   calc: { desc: 'Calculadora', usage: '<expressao>', fn: async (msg, args) => {
