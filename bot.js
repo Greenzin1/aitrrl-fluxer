@@ -42,13 +42,13 @@ const commands = {
     await m.edit({ content: `🏓 **|** **Pong!**\n⏱️ **|** **Gateway Ping:** \`${latency}ms\`\n⚡ **|** **API Ping:** \`${client.ws?.ping || 'N/A'}ms\`` });
   }},
 
-  aitrrl: { desc: 'Sobre o bot', fn: async (msg, args) => {
-    if (args[0] !== 'info') return msg.channel.send(`❌ Use: \`${PREFIX}aitrrl info\``);
-    const u = getUser(msg.author.id);
-    const totalUsers = Object.keys(data.users).length;
-    const totalCmds = data.stats.commandsUsed;
-    const uptime = Math.floor((Date.now() - data.stats.uptime) / 3600000);
-    await msg.channel.send(`Olá, eu me chamo aitrrL!
+  aitrrl: { desc: 'Comandos do bot', fn: async (msg, args) => {
+    const sub = (args[0] || '').toLowerCase();
+
+    if (sub === 'info') {
+      const totalUsers = Object.keys(data.users).length;
+      const totalCmds = data.stats.commandsUsed;
+      return msg.channel.send(`Olá, eu me chamo aitrrL!
 Olá, eu me chamo aitrrL (ou, como meus amigos próximos me chamam, "aitrr"), tenho 16 anos e, depois que eu fui desenvolvida, deixar o seu servidor único e extraordinário nunca foi tão fácil!
 
 Fora da internet eu também sou um robô, mas com sentimentos humanos e com determinação para ajudar e divertir as pessoas mundo afora. Para me conectar ao Fluxer, eu programei um bot que possui a minha personalidade, sonhos e esperanças... e hospedei ele dentro de mim!
@@ -56,6 +56,26 @@ Fora da internet eu também sou um robô, mas com sentimentos humanos e com dete
 Atualmente estou espalhando alegria e diversão em ${totalUsers} servidores com 18 comandos inovadores e já executei ${totalCmds} comandos nas últimas 24 horas. Desde 15 de Agosto de 2026 tentando transformar o mundo em um lugar melhor!
 
 Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
+    }
+
+    if (sub === 'ajuda' || sub === 'help' || !sub) {
+      let text = '## 📖 Comandos do aitrrL\n\n';
+      const seen = new Set();
+      for (const [name, cmd] of Object.entries(commands)) {
+        if (name === 'aitrrl') continue;
+        if (!seen.has(cmd.desc)) {
+          text += `\`${PREFIX}${name}\` - ${cmd.desc}\n`;
+          seen.add(cmd.desc);
+        }
+      }
+      text += `\n**Subcomandos do aitrrL:**\n`;
+      text += `\`${PREFIX}aitrrl info\` - Sobre o bot\n`;
+      text += `\`${PREFIX}aitrrl ajuda\` - Lista de comandos\n`;
+      text += `\nPrefixo: \`${PREFIX}\``;
+      return msg.channel.send(text);
+    }
+
+    return msg.channel.send(`❌ Subcomando não encontrado! Use \`${PREFIX}aitrrl ajuda\``);
   }},
 
   calc: { desc: 'Calculadora', usage: '<expressao>', fn: async (msg, args) => {
@@ -160,19 +180,6 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
   avatar: { desc: 'Avatar de um usuario', fn: async (msg) => {
     const avatar = msg.author.displayAvatarURL({ dynamic: true }) || 'Sem avatar';
     await msg.channel.send(`🖼️ **Avatar:** ${avatar}`);
-  }},
-
-  ajuda: { desc: 'Lista de comandos', aliases: ['help', 'h'], fn: async (msg) => {
-    let text = '## 📖 Comandos do aitrrL\n\n';
-    const seen = new Set();
-    for (const [name, cmd] of Object.entries(commands)) {
-      if (!seen.has(cmd.desc)) {
-        text += `\`${PREFIX}${name}\` - ${cmd.desc}\n`;
-        seen.add(cmd.desc);
-      }
-    }
-    text += `\nPrefixo: \`${PREFIX}\``;
-    await msg.channel.send(text);
   }},
 
   stats: { desc: 'Estatisticas do bot', fn: async (msg) => {
