@@ -200,9 +200,14 @@ const commands = {
   }},
 };
 
-client.on(Events.ClientReady, () => {
+console.log('Bot starting...');
+console.log('Token set:', !!process.env.FLUXER_BOT_TOKEN);
+
+client.on(Events.Ready, () => {
   console.log(`✅ aitrrL online como ${client.user?.username || 'bot'}`);
 });
+
+client.on('error', (e) => console.error('Client error:', e));
 
 client.on(Events.MessageCreate, async (msg) => {
   if (msg.author?.bot) return;
@@ -233,4 +238,7 @@ client.on(Events.MessageCreate, async (msg) => {
   saveData();
 });
 
-client.login(process.env.FLUXER_BOT_TOKEN);
+client.login(process.env.FLUXER_BOT_TOKEN).catch(e => {
+  console.error('❌ Login failed:', e.message);
+  process.exit(1);
+});
