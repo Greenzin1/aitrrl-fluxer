@@ -39,7 +39,7 @@ const commands = {
     const start = Date.now();
     const m = await msg.channel.send('🏓 Calculando...');
     const latency = Date.now() - start;
-    await m.edit({ content: `🏓 **Pong!**\n⏱️ Latencia: ${latency}ms\n⚡ WebSocket: ${client.ws?.ping || 'N/A'}ms` });
+    await m.edit({ content: `🏓 **|** **Pong!**\n⏱️ **|** **Gateway Ping:** \`${latency}ms\`\n⚡ **|** **API Ping:** \`${client.ws?.ping || 'N/A'}ms\`` });
   }},
 
   aitrrl: { desc: 'Sobre o bot', fn: async (msg) => {
@@ -62,7 +62,7 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
     try {
       const expr = args.join('').replace(/[^0-9+\-*/().]/g, '');
       const result = Function('"use strict"; return (' + expr + ')')();
-      await msg.channel.send(`🔢 **${expr}** = **${result}**`);
+      await msg.channel.send(`📖 **|** **Resultado:** \`${result}\``);
     } catch { await msg.channel.send('❌ Expressao invalida'); }
   }},
 
@@ -186,13 +186,14 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
     try {
       const member = await msg.guild.members.fetch(user_id);
       if (member.id === msg.guild.ownerId) {
-        return msg.channel.send(`**:shield: |** O usuário <@${user_id}> não poderá ser punido, pois ele é o dono do servidor! Tá tentando fazer um motim, hein?`);
+        return msg.channel.send(`🛡️ **|** O usuário <@${user_id}> não poderá ser punido, pois ele é o dono do servidor! Tá tentando fazer um motim, hein?`);
       }
       if (member.permissions.has('Administrator')) {
-        return msg.channel.send(`**:shield: |** O usuário <@${user_id}> é um admin! Não posso expulsar quem manda aqui!`);
+        return msg.channel.send(`🛡️ **|** O usuário <@${user_id}> é um admin! Não posso expulsar quem manda aqui!`);
       }
       await member.kick(reason);
-      await msg.channel.send(`**:hammer: |** Você está prestes a chutar da bunda do <@${user_id}> do seu servidor pelo motivo \`${reason}\`!\n**:tada: |** Usuário punido. Ninguém mandou quebrar as regras, seu boboca!`);
+      await msg.channel.send(`🔨 **|** Você está prestes a chutar da bunda do <@${user_id}> do seu servidor pelo motivo \`${reason}\`!`);
+      await msg.channel.send(`🎉 **|** Usuário punido. Ninguém mandou quebrar as regras, seu boboca!`);
     } catch (e) { await msg.channel.send(`❌ Erro: ${e.message}`); }
   }},
 
@@ -203,13 +204,14 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
     try {
       const member = await msg.guild.members.fetch(user_id);
       if (member.id === msg.guild.ownerId) {
-        return msg.channel.send(`**:shield: |** O usuário <@${user_id}> não poderá ser punido, pois ele é o dono do servidor! Tá tentando fazer um motim, hein?`);
+        return msg.channel.send(`🛡️ **|** O usuário <@${user_id}> não poderá ser punido, pois ele é o dono do servidor! Tá tentando fazer um motim, hein?`);
       }
       if (member.permissions.has('Administrator')) {
-        return msg.channel.send(`**:shield: |** O usuário <@${user_id}> é um admin! Não posso banir quem manda aqui!`);
+        return msg.channel.send(`🛡️ **|** O usuário <@${user_id}> é um admin! Não posso banir quem manda aqui!`);
       }
       await member.ban({ reason });
-      await msg.channel.send(`**:hammer: |** Você está prestes a banir <@${user_id}> do seu servidor pelo motivo \`${reason}\`!\n**:tada: |** Usuário punido. Ninguém mandou quebrar as regras, seu boboca!`);
+      await msg.channel.send(`🔨 **|** Você está prestes a banir <@${user_id}> do seu servidor pelo motivo \`${reason}\`!`);
+      await msg.channel.send(`🎉 **|** Usuário punido. Ninguém mandou quebrar as regras, seu boboca!`);
     } catch (e) { await msg.channel.send(`❌ Erro: ${e.message}`); }
   }},
 
