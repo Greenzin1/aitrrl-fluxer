@@ -185,8 +185,14 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
     const reason = args.slice(1).join(' ') || 'Sem motivo';
     try {
       const member = await msg.guild.members.fetch(user_id);
+      if (member.id === msg.guild.ownerId) {
+        return msg.channel.send(`**:shield: |** O usuário <@${user_id}> não poderá ser punido, pois ele é o dono do servidor! Tá tentando fazer um motim, hein?`);
+      }
+      if (member.permissions.has('Administrator')) {
+        return msg.channel.send(`**:shield: |** O usuário <@${user_id}> é um admin! Não posso expulsar quem manda aqui!`);
+      }
       await member.kick(reason);
-      await msg.channel.send(`👢 <@${user_id}> kickado! Motivo: ${reason}`);
+      await msg.channel.send(`**:boot: |** <@${user_id}> foi expulso(a)! Motivo: ${reason}`);
     } catch (e) { await msg.channel.send(`❌ Erro: ${e.message}`); }
   }},
 
@@ -196,8 +202,14 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
     const reason = args.slice(1).join(' ') || 'Sem motivo';
     try {
       const member = await msg.guild.members.fetch(user_id);
+      if (member.id === msg.guild.ownerId) {
+        return msg.channel.send(`**:shield: |** O usuário <@${user_id}> não poderá ser punido, pois ele é o dono do servidor! Tá tentando fazer um motim, hein?`);
+      }
+      if (member.permissions.has('Administrator')) {
+        return msg.channel.send(`**:shield: |** O usuário <@${user_id}> é um admin! Não posso banir quem manda aqui!`);
+      }
       await member.ban({ reason });
-      await msg.channel.send(`🔨 <@${user_id}> banido! Motivo: ${reason}`);
+      await msg.channel.send(`**:hammer: |** <@${user_id}> foi banido(a)! Motivo: ${reason}`);
     } catch (e) { await msg.channel.send(`❌ Erro: ${e.message}`); }
   }},
 
