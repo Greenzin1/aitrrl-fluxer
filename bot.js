@@ -42,7 +42,8 @@ const commands = {
     await m.edit({ content: `🏓 **|** **Pong!**\n⏱️ **|** **Gateway Ping:** \`${latency}ms\`\n⚡ **|** **API Ping:** \`${client.ws?.ping || 'N/A'}ms\`` });
   }},
 
-  aitrrl: { desc: 'Sobre o bot', fn: async (msg) => {
+  aitrrl: { desc: 'Sobre o bot', fn: async (msg, args) => {
+    if (args[0] !== 'info') return msg.channel.send(`❌ Use: \`${PREFIX}aitrrl info\``);
     const u = getUser(msg.author.id);
     const totalUsers = Object.keys(data.users).length;
     const totalCmds = data.stats.commandsUsed;
