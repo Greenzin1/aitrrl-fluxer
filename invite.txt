@@ -1,0 +1,1 @@
+https://web.canary.fluxer.app/oauth2/authorize?client_id=1538273359882620929&scope=bot&permissions=68608

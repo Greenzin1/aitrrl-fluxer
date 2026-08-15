@@ -39,7 +39,7 @@ const commands = {
     const start = Date.now();
     const m = await msg.channel.send('🏓 Calculando...');
     const latency = Date.now() - start;
-    await m.edit(`🏓 **Pong!**\n⏱️ Latencia: ${latency}ms\n⚡ WebSocket: ${client.ws?.ping || 'N/A'}ms`);
+    await m.edit({ content: `🏓 **Pong!**\n⏱️ Latencia: ${latency}ms\n⚡ WebSocket: ${client.ws?.ping || 'N/A'}ms` });
   }},
 
   aitrrl: { desc: 'Sobre o bot', fn: async (msg) => {
