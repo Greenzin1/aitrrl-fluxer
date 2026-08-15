@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const DATA_FILE = path.join(__dirname, 'data.json');
-const PREFIX = '!';
+const PREFIX = '/';
 const OWNER_ID = 'SEU_USER_ID_AQUI';
 
 let data = { users: {}, stats: { commandsUsed: 0, messagesSeen: 0, uptime: Date.now() } };
