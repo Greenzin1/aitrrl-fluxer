@@ -1,7 +1,7 @@
 {
   "name": "aitrrl-fluxer",
   "version": "1.0.0",
-  "description": "",
+  "description": "Bot para o Fluxer, porta do aitrrL original.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,7 +9,16 @@
   "keywords": [],
   "type": "commonjs",
   "dependencies": {
+    "@fluxerjs/core": "^2.2.0",
     "dotenv": "^17.4.2",
     "fluxer.ts": "^0.4.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Greenzin1/aitrrl-fluxer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Greenzin1/aitrrl-fluxer/issues"
+  },
+  "homepage": "https://github.com/Greenzin1/aitrrl-fluxer#readme"
 }
