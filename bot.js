@@ -182,7 +182,7 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
   kick: { desc: 'Expulsar membro', usage: '@user [motivo]', ownerOnly: true, fn: async (msg, args) => {
     if (!args[0]) return msg.channel.send('❌ Use: `!kick @user [motivo]`');
     const user_id = args[0].replace(/[<@!>]/g, '');
-    const reason = args.slice(1).join(' ') || 'Sem motivo';
+    const reason = args.slice(1).join(' ') || 'Motivo não informado';
     try {
       const member = await msg.guild.members.fetch(user_id);
       if (member.id === msg.guild.ownerId) {
@@ -192,14 +192,14 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
         return msg.channel.send(`**:shield: |** O usuário <@${user_id}> é um admin! Não posso expulsar quem manda aqui!`);
       }
       await member.kick(reason);
-      await msg.channel.send(`**:boot: |** <@${user_id}> foi expulso(a)! Motivo: ${reason}`);
+      await msg.channel.send(`**:hammer: |** Você está prestes a chutar da bunda do <@${user_id}> do seu servidor pelo motivo \`${reason}\`!`);
     } catch (e) { await msg.channel.send(`❌ Erro: ${e.message}`); }
   }},
 
   ban: { desc: 'Banir membro', usage: '@user [motivo]', ownerOnly: true, fn: async (msg, args) => {
     if (!args[0]) return msg.channel.send('❌ Use: `!ban @user [motivo]`');
     const user_id = args[0].replace(/[<@!>]/g, '');
-    const reason = args.slice(1).join(' ') || 'Sem motivo';
+    const reason = args.slice(1).join(' ') || 'Motivo não informado';
     try {
       const member = await msg.guild.members.fetch(user_id);
       if (member.id === msg.guild.ownerId) {
@@ -209,7 +209,7 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
         return msg.channel.send(`**:shield: |** O usuário <@${user_id}> é um admin! Não posso banir quem manda aqui!`);
       }
       await member.ban({ reason });
-      await msg.channel.send(`**:hammer: |** <@${user_id}> foi banido(a)! Motivo: ${reason}`);
+      await msg.channel.send(`**:hammer: |** Você está prestes a banir <@${user_id}> do seu servidor pelo motivo \`${reason}\`!`);
     } catch (e) { await msg.channel.send(`❌ Erro: ${e.message}`); }
   }},
 
