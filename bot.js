@@ -39,7 +39,7 @@ const commands = {
     const start = Date.now();
     const m = await msg.channel.send('🏓 Calculando...');
     const latency = Date.now() - start;
-    await m.edit({ content: `🏓 **|** **Pong!**\n⏱️ **|** **Gateway Ping:** \`${latency}ms\`\n⚡ **|** **API Ping:** \`${client.ws?.ping || 'N/A'}ms\`` });
+    await m.edit({ content: `🏓 **Pong!**\n⏱️ Gateway Ping: \`${latency}ms\`\n⚡ API Ping: \`${client.ws?.ping || 'N/A'}ms\`` });
   }},
 
   aitrrl: { desc: 'Comandos do bot', fn: async (msg, args) => {
@@ -48,31 +48,35 @@ const commands = {
     if (sub === 'info') {
       const totalUsers = Object.keys(data.users).length;
       const totalCmds = data.stats.commandsUsed;
-      return msg.channel.send(`Olá, eu me chamo aitrrL!
-Olá, eu me chamo aitrrL (ou, como meus amigos próximos me chamam, "aitrr"), tenho 16 anos e, depois que eu fui desenvolvida, deixar o seu servidor único e extraordinário nunca foi tão fácil!
-
-Fora da internet eu também sou um robô, mas com sentimentos humanos e com determinação para ajudar e divertir as pessoas mundo afora. Para me conectar ao Fluxer, eu programei um bot que possui a minha personalidade, sonhos e esperanças... e hospedei ele dentro de mim!
-
-Atualmente estou espalhando alegria e diversão em ${totalUsers} servidores com 18 comandos inovadores e já executei ${totalCmds} comandos nas últimas 24 horas. Desde 15 de Agosto de 2026 tentando transformar o mundo em um lugar melhor!
-
-Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
+      const embed = new EmbedBuilder()
+        .setTitle('🤖 Sobre o aitrrL')
+        .setDescription('Olá, eu me chamo aitrrL (ou "aitrr"), tenho 16 anos e sou um bot com sentimentos humanos!\n\nFui criada pra deixar o seu servidor único e extraordinário. Fora da internet também sou um robô com determinação pra ajudar e divertir as pessoas mundo afora!')
+        .addFields(
+          { name: '👥 Usuarios', value: `${totalUsers}`, inline: true },
+          { name: '⌨️ Comandos', value: `${totalCmds}`, inline: true },
+          { name: '📅 Desde', value: '15 Agosto 2026', inline: true },
+        )
+        .setColor(0xeb459e)
+        .setFooter({ text: 'Transformando o mundo em um lugar incrível!' });
+      return msg.channel.send({ embeds: [embed] });
     }
 
     if (sub === 'ajuda' || sub === 'help' || !sub) {
-      let text = '## 📖 Comandos do aitrrL\n\n';
+      const fields = [];
       const seen = new Set();
       for (const [name, cmd] of Object.entries(commands)) {
         if (name === 'aitrrl') continue;
         if (!seen.has(cmd.desc)) {
-          text += `\`${PREFIX}${name}\` - ${cmd.desc}\n`;
+          fields.push({ name: `\`${PREFIX}${name}\``, value: cmd.desc, inline: true });
           seen.add(cmd.desc);
         }
       }
-      text += `\n**Subcomandos do aitrrL:**\n`;
-      text += `\`${PREFIX}aitrrl info\` - Sobre o bot\n`;
-      text += `\`${PREFIX}aitrrl ajuda\` - Lista de comandos\n`;
-      text += `\nPrefixo: \`${PREFIX}\``;
-      return msg.channel.send(text);
+      const embed = new EmbedBuilder()
+        .setTitle('📖 Comandos do aitrrL')
+        .addFields(...fields)
+        .setColor(0x5865f2)
+        .setFooter({ text: `Prefixo: ${PREFIX} | Subcomandos: /aitrrl info, /aitrrl ajuda` });
+      return msg.channel.send({ embeds: [embed] });
     }
 
     return msg.channel.send(`❌ Subcomando não encontrado! Use \`${PREFIX}aitrrl ajuda\``);
@@ -103,7 +107,11 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
     }
     const score = Math.floor(Math.random() * 101);
     const bar = '❤️'.repeat(Math.round(score / 10)) + '🖤'.repeat(10 - Math.round(score / 10));
-    await msg.channel.send(`💕 **Ship**\n${bar}\n**${score}%** de compatibilidade!`);
+    const embed = new EmbedBuilder()
+      .setTitle('💕 Ship')
+      .setDescription(`${bar}\n**${score}%** de compatibilidade!`)
+      .setColor(score >= 70 ? 0xff6b9d : score >= 40 ? 0xffa500 : 0xff4444);
+    await msg.channel.send({ embeds: [embed] });
   }},
 
   moeda: { desc: 'Joga moeda', fn: async (msg) => {
@@ -170,7 +178,17 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
   perfil: { desc: 'Seu perfil', aliases: ['profile'], fn: async (msg) => {
     const u = getUser(msg.author.id);
     const bar = xpBar(u.xp, u.level);
-    await msg.channel.send(`## 👤 Perfil de ${msg.author.username}\n\n**ID:** \`${msg.author.id}\`\n**Level:** ${u.level}\n**XP:** [${bar}] ${u.xp}/${u.level * 100}\n**Reputacao:** ${u.reputation}\n**Moedas:** ${u.coins} 🪙`);
+    const embed = new EmbedBuilder()
+      .setTitle(`👤 Perfil de ${msg.author.username}`)
+      .addFields(
+        { name: '🆔 ID', value: `\`${msg.author.id}\``, inline: true },
+        { name: '⭐ Level', value: `${u.level}`, inline: true },
+        { name: '📊 XP', value: `[${bar}] ${u.xp}/${u.level * 100}`, inline: false },
+        { name: '🏅 Reputação', value: `${u.reputation}`, inline: true },
+        { name: '🪙 Moedas', value: `${u.coins}`, inline: true },
+      )
+      .setColor(0xeb459e);
+    await msg.channel.send({ embeds: [embed] });
   }},
 
   reputacao: { desc: 'Dar reputacao', aliases: ['rep'], usage: '@user', fn: async (msg, args) => {
@@ -206,9 +224,13 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
   ranking: { desc: 'Leaderboard XP', aliases: ['lb', 'top'], fn: async (msg) => {
     const sorted = Object.entries(data.users).sort((a, b) => (b[1].level * 100 + b[1].xp) - (a[1].level * 100 + a[1].xp)).slice(0, 10);
     if (!sorted.length) return msg.channel.send('❌ Ninguem ainda!');
-    let text = '## 🏆 Ranking\n';
-    sorted.forEach(([id, u], i) => { text += `**${i + 1}.** <@${id}> - Level ${u.level} (${u.xp} XP)\n`; });
-    await msg.channel.send(text);
+    const medals = ['🥇', '🥈', '🥉'];
+    const desc = sorted.map(([id, u], i) => `${medals[i] || `**${i + 1}.**`} <@${id}> - Level ${u.level} (${u.xp} XP)`).join('\n');
+    const embed = new EmbedBuilder()
+      .setTitle('🏆 Ranking')
+      .setDescription(desc)
+      .setColor(0xffd700);
+    await msg.channel.send({ embeds: [embed] });
   }},
 
   coinflip: { desc: 'Gira moeda', aliases: ['cf'], fn: async (msg) => {
