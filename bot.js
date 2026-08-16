@@ -61,8 +61,7 @@ const commands = {
     const start = Date.now();
     const m = await msg.channel.send('🏓 Calculando...');
     const latency = Date.now() - start;
-    const wsPing = client.ws?.ping ?? client.ping ?? latency;
-    await m.edit({ content: `🏓 **Pong!**\n⏱️ Gateway Ping: \`${latency}ms\`\n⚡ API Ping: \`${wsPing}ms\`` });
+    await m.edit({ content: `🏓 **Pong!** ⏱️ Ping: \`${latency}ms\`` });
   }},
 
   aitrrl: { desc: 'Comandos do bot', fn: async (msg, args) => {
