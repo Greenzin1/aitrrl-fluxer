@@ -99,6 +99,11 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
 
   ship: { desc: 'Compatibilidade entre usuarios', usage: '@user1 @user2', fn: async (msg, args) => {
     if (args.length < 2) return msg.channel.send('❌ Use: `!ship @user1 @user2`');
+    const botId = '1538273359882620929';
+    const mentions = msg.mentions.users.map(u => u.id);
+    if (mentions.includes(botId)) {
+      return msg.channel.send('💔 Não quero namorar! Gosto de ser solteira e de viver a minha própria vida! Mas algum dia você irá encontrar alguém que te ama!');
+    }
     const score = Math.floor(Math.random() * 101);
     const bar = '❤️'.repeat(Math.round(score / 10)) + '🖤'.repeat(10 - Math.round(score / 10));
     await msg.channel.send(`💕 **Ship**\n${bar}\n**${score}%** de compatibilidade!`);
