@@ -270,7 +270,7 @@ const commands = {
     const isBot = user.id === '1538273359882620929';
     const embed = new EmbedBuilder()
       .setTitle(`🖼️ ${user.username}`)
-      .setImage(avatar)
+      .setImage({ url: avatar, width: 400, height: 400 })
       .setFooter({ text: isBot ? 'Sim, eu sei que sou muito fofa!' : 'Apesar de tudo, ainda é você.' })
       .setColor(isBot ? 0xeb459e : 0x5865f2);
     await msg.channel.send({ embeds: [embed] });
