@@ -87,10 +87,7 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
     } catch { await msg.channel.send('❌ Expressao invalida'); }
   }},
 
-  oitobola: { desc: 'Bola 8 magica', fn: async (msg) => {
-    const r = ['Sim!', 'Nao!', 'Talvez...', 'Claro!', 'Com certeza!', 'Nao conte com isso', 'Depende', 'Obviamente!', 'Duvido muito', 'De jeito nenhum!'];
-    await msg.channel.send(`🎱 ${r[Math.floor(Math.random() * r.length)]}`);
-  }},
+
 
   reverso: { desc: 'Reverte texto', aliases: ['reverse'], usage: '<texto>', fn: async (msg, args) => {
     if (!args[0]) return msg.channel.send('❌ Use: `!reverso texto`');
@@ -117,11 +114,22 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
     await msg.channel.send(`🎲 **${Math.floor(Math.random() * 6) + 1}**`);
   }},
 
-  poll: { desc: 'Enquete', usage: '<pergunta>', fn: async (msg, args) => {
-    if (!args[0]) return msg.channel.send('❌ Use: `!poll pergunta`');
-    const m = await msg.channel.send(`📊 **Enquete:** ${args.join(' ')}\n\n👍 Sim | 👎 Nao`);
-    await m.react('👍');
-    await m.react('👎');
+  poll: { desc: 'Enquete rapida', usage: '<pergunta> | opcao1 | opcao2', fn: async (msg, args) => {
+    const full = args.join(' ');
+    const parts = full.split('|').map(s => s.trim());
+    if (parts.length < 2) return msg.channel.send('❌ Use: `!poll pergunta | opcao1 | opcao2`\nExemplo: `!poll Melhor linguagem? | Python | JavaScript | Lua`');
+    const pergunta = parts[0];
+    const opcoes = parts.slice(1);
+    const emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
+    let texto = `📊 **${pergunta}**\n\n`;
+    opcoes.forEach((op, i) => {
+      if (i < emojis.length) texto += `${emojis[i]} ${op}\n`;
+    });
+    texto += `\n${opcoes.length} opcoes | Vote reagindo!`;
+    const m = await msg.channel.send(texto);
+    for (let i = 0; i < opcoes.length && i < 10; i++) {
+      try { await m.react(emojis[i]); } catch {}
+    }
   }},
 
   randomuser: { desc: 'Membro aleatorio', fn: async (msg) => {
@@ -133,9 +141,30 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
     await msg.channel.send(`💝 ${r[Math.floor(Math.random() * r.length)]}`);
   }},
 
-  insult: { desc: 'Zoeira aleatoria', fn: async (msg) => {
-    const r = ['Voce e especial... de um jeito estranho', 'Nao e voce, e o universo', 'Tenta de novo amanha', 'Boa sorte com isso'];
-    await msg.channel.send(`😤 ${r[Math.floor(Math.random() * r.length)]}`);
+  insult: { desc: 'Zoeira aleatoria', usage: '@user', fn: async (msg, args) => {
+    const target = args[0] ? args[0].replace(/[<@!>]/g, '') : msg.author.id;
+    const insultos = [
+      'Voce e tao lento que o Google te pede pra esperar.',
+      'Voce nasceu feio e o espelho pediu arrego.',
+      'Seu rosto e a razao pela qual Deus criou o saco de pancadas.',
+      'Voce e tipo um bug no codigo - ninguem te pediu pra existir.',
+      'Seu QI e menor que a temperatura de freezer.',
+      'Voce e tao burro que confunde WiFi com Wifia.',
+      'O unico lugar onde voce brilha e no espelho do banheiro.',
+      'Voce e o motivo pelo qual a internet tem bloqueio parental.',
+      'Se voce fosse um virus, ninguem instalaria antiviru.',
+      'Voce e tipo impressora 3D - todo mundo acha que e legal ate ter um.',
+      'Se o conhecimento fosse voce, ninguem teria nada.',
+      'Voce e o NPC mais burro desse jogo.',
+      'Ate o autocorrect desiste de voce.',
+      'Voce e tao sem graca que o Netflix te recomendadocumentario.',
+      'Se voce fosse uma piada, ninguem riria.',
+      'Voce nasceu e o medico disse: "eu desisto".',
+      'Seu nivel de inteligencia e impressionante... impressionantemente baixo.',
+      'Voce e o motivo pelo qual existe o botao de desligar.',
+    ];
+    const r = insultos[Math.floor(Math.random() * insultos.length)];
+    await msg.channel.send(`<@${target}> ${r}`);
   }},
 
   perfil: { desc: 'Seu perfil', aliases: ['profile'], fn: async (msg) => {
@@ -180,6 +209,41 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
     let text = '## 🏆 Ranking\n';
     sorted.forEach(([id, u], i) => { text += `**${i + 1}.** <@${id}> - Level ${u.level} (${u.xp} XP)\n`; });
     await msg.channel.send(text);
+  }},
+
+  coinflip: { desc: 'Gira moeda', aliases: ['cf'], fn: async (msg) => {
+    await msg.channel.send(Math.random() > 0.5 ? '🪙 **Cara!**' : '🪙 **Coroa!**');
+  }},
+
+  say: { desc: 'Faz o bot falar', usage: '<texto>', fn: async (msg, args) => {
+    if (!args[0]) return msg.channel.send('❌ Use: `!say ola`');
+    await msg.channel.send(args.join(' '));
+  }},
+
+  rate: { desc: 'Avalia algo de 0 a 10', usage: '<algo>', fn: async (msg, args) => {
+    if (!args[0]) return msg.channel.send('❌ Use: `!rate pizza`');
+    const nota = Math.floor(Math.random() * 11);
+    const bar = '⭐'.repeat(Math.round(nota / 2));
+    await msg.channel.send(`${bar}\n**${args.join(' ')}**: **${nota}/10**`);
+  }},
+
+  choose: { desc: 'Escolhe entre opcoes', usage: '<opcao1 | opcao2>', fn: async (msg, args) => {
+    const parts = args.join(' ').split('|').map(s => s.trim()).filter(Boolean);
+    if (parts.length < 2) return msg.channel.send('❌ Use: `!choose pizza | sushi | hamburguer`');
+    const escolha = parts[Math.floor(Math.random() * parts.length)];
+    await msg.channel.send(`🤔 Eu escolho... **${escolha}**!`);
+  }},
+
+  urban: { desc: 'Definicao do Urban Dictionary', usage: '<termo>', fn: async (msg, args) => {
+    if (!args[0]) return msg.channel.send('❌ Use: `!urban poggers`');
+    try {
+      const res = await fetch(`https://api.urbandictionary.com/v0/define?term=${encodeURIComponent(args.join(' '))}`);
+      const data = await res.json();
+      if (!data.list?.length) return msg.channel.send('❌ Nao encontrei nada!');
+      const def = data.list[0];
+      const definition = def.definition.length > 500 ? def.definition.slice(0, 500) + '...' : def.definition;
+      await msg.channel.send(`## 📖 ${def.word}\n\n${definition}\n\n👍 ${def.thumbs_up} | 👎 ${def.thumbs_down}`);
+    } catch { await msg.channel.send('❌ Erro ao buscar!'); }
   }},
 
   avatar: { desc: 'Avatar de um usuario', fn: async (msg) => {
