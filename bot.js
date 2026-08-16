@@ -6,8 +6,21 @@ const path = require('path');
 const DATA_FILE = path.join(__dirname, 'data.json');
 const PREFIX = '/';
 const OWNER_ID = 'SEU_USER_ID_AQUI';
-const VERSION = '1.0';
-const VERSION_COMMITS = 0;
+const VERSION_BASE_COMMIT = '2b14a1e';
+let VERSION = '1.0';
+
+async function fetchVersion() {
+  try {
+    const res = await fetch(`https://api.github.com/repos/Greenzin1/aitrrl-fluxer/compare/${VERSION_BASE_COMMIT}...main`);
+    const data = await res.json();
+    const commits = data.ahead_by || 0;
+    const major = 1 + Math.floor(commits / 10);
+    VERSION = `${major}.0`;
+    console.log(`Version: ${VERSION} (${commits} commits since base)`);
+  } catch (e) {
+    console.log('Could not fetch version from GitHub, using default');
+  }
+}
 
 let data = { users: {}, stats: { commandsUsed: 0, messagesSeen: 0, uptime: Date.now() }, polls: {}, pollCount: 0 };
 
@@ -418,6 +431,8 @@ client.on(Events.MessageCreate, async (msg) => {
   try { await cmd.fn(msg, args); } catch (e) { console.error(e); }
   saveData();
 });
+
+fetchVersion();
 
 client.login(process.env.FLUXER_BOT_TOKEN).catch(e => {
   console.error('❌ Login failed:', e.message);
