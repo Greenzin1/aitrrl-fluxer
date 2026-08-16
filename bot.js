@@ -7,7 +7,7 @@ const DATA_FILE = path.join(__dirname, 'data.json');
 const PREFIX = '/';
 const OWNER_ID = 'SEU_USER_ID_AQUI';
 
-let data = { users: {}, stats: { commandsUsed: 0, messagesSeen: 0, uptime: Date.now() }, polls: {} };
+let data = { users: {}, stats: { commandsUsed: 0, messagesSeen: 0, uptime: Date.now() }, polls: {}, pollCount: 0 };
 
 function loadData() {
   try { if (fs.existsSync(DATA_FILE)) data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')); } catch {}
@@ -129,37 +129,40 @@ const commands = {
     const pergunta = parts[0];
     const opcoes = parts.slice(1);
     const emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
-    let texto = `📊 **${pergunta}**\n\n`;
+    data.pollCount = (data.pollCount || 0) + 1;
+    const pollId = data.pollCount;
+    let texto = `📊 **#${pollId}** ${pergunta}\n\n`;
     opcoes.forEach((op, i) => {
       if (i < emojis.length) texto += `${emojis[i]} ${op}\n`;
     });
-    texto += `\n${opcoes.length} opcoes | Vote reagindo!`;
+    texto += `\n${opcoes.length} opcoes | Vote reagindo!\n🔒 Fecha com: \`/closepoll ${pollId}\``;
     const m = await msg.channel.send(texto);
     for (let i = 0; i < opcoes.length && i < 10; i++) {
       try { await m.react(emojis[i]); } catch {}
     }
-    data.polls[m.id] = {
+    data.polls[pollId] = {
       question: pergunta,
       options: opcoes,
       author: msg.author.id,
       channelId: msg.channel.id,
+      messageId: m.id,
       created: Date.now(),
     };
     saveData();
   }},
 
-  closepoll: { desc: 'Fechar enquete e ver resultados', usage: '<message_id>', fn: async (msg, args) => {
-    if (!args[0]) return msg.channel.send('❌ Use: `/closepoll <id_da_mensagem>`\n(Dica: ative modo desenvolvedor e clique na mensagem pra copiar o ID)');
-    const pollId = args[0];
+  closepoll: { desc: 'Fechar enquete e ver resultados', usage: '<id>', fn: async (msg, args) => {
+    if (!args[0]) return msg.channel.send('❌ Use: `/closepoll <id>`\nExemplo: `/closepoll 1`');
+    const pollId = parseInt(args[0]);
     const poll = data.polls[pollId];
     if (!poll) return msg.channel.send('❌ Enquete nao encontrada ou ja fechada!');
     if (poll.author !== msg.author.id) return msg.channel.send('❌ So quem criou a enquete pode fecha-la!');
     try {
       const channel = msg.guild?.channels?.cache?.get(poll.channelId) || msg.channel;
-      const pollMsg = await channel.messages.fetch(pollId).catch(() => null);
+      const pollMsg = await channel.messages.fetch(poll.messageId).catch(() => null);
       if (!pollMsg) return msg.channel.send('❌ Mensagem da enquete nao encontrada!');
       const emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
-      let results = `📊 **${poll.question}**\n\n`;
+      let results = `📊 **#${pollId} ${poll.question}**\n\n`;
       let totalVotes = 0;
       const votes = [];
       poll.options.forEach((op, i) => {
@@ -171,9 +174,10 @@ const commands = {
       votes.sort((a, b) => b.votes - a.votes);
       const maxVotes = votes[0]?.votes || 0;
       votes.forEach((v, i) => {
-        const bar = totalVotes > 0 ? '🟦'.repeat(Math.round((v.votes / totalVotes) * 10)) : '';
+        const pct = totalVotes > 0 ? Math.round((v.votes / totalVotes) * 100) : 0;
+        const bar = '🟦'.repeat(Math.round(pct / 10));
         const winner = v.votes === maxVotes && maxVotes > 0 ? ' 👑' : '';
-        results += `**${i + 1}.** ${v.option} - ${v.votes} votos ${bar}${winner}\n`;
+        results += `**${i + 1}.** ${v.option} — ${v.votes} votos (${pct}%) ${bar}${winner}\n`;
       });
       results += `\n**Total: ${totalVotes} votos**\n🔒 Enquete fechada por <@${msg.author.id}>`;
       await msg.channel.send(results);
