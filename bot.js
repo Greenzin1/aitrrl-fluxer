@@ -79,7 +79,7 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
   }},
 
   calc: { desc: 'Calculadora', usage: '<expressao>', fn: async (msg, args) => {
-    if (!args[0]) return msg.channel.send('❌ Use: `!calc 2+2`');
+    if (!args[0]) return msg.channel.send('❌ Use: `/calc 2+2`');
     try {
       const expr = args.join('').replace(/[^0-9+\-*/().]/g, '');
       const result = Function('"use strict"; return (' + expr + ')')();
@@ -90,12 +90,12 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
 
 
   reverso: { desc: 'Reverte texto', aliases: ['reverse'], usage: '<texto>', fn: async (msg, args) => {
-    if (!args[0]) return msg.channel.send('❌ Use: `!reverso texto`');
+    if (!args[0]) return msg.channel.send('❌ Use: `/reverso texto`');
     await msg.channel.send(`🔄 ${args.join('').split('').reverse().join('')}`);
   }},
 
   ship: { desc: 'Compatibilidade entre usuarios', usage: '@user1 @user2', fn: async (msg, args) => {
-    if (args.length < 2) return msg.channel.send('❌ Use: `!ship @user1 @user2`');
+    if (args.length < 2) return msg.channel.send('❌ Use: `/ship @user1 @user2`');
     const botId = '1538273359882620929';
     const mentions = msg.mentions.users.map(u => u.id);
     if (mentions.includes(botId)) {
@@ -117,7 +117,7 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
   poll: { desc: 'Enquete rapida', usage: '<pergunta> | opcao1 | opcao2', fn: async (msg, args) => {
     const full = args.join(' ');
     const parts = full.split('|').map(s => s.trim());
-    if (parts.length < 2) return msg.channel.send('❌ Use: `!poll pergunta | opcao1 | opcao2`\nExemplo: `!poll Melhor linguagem? | Python | JavaScript | Lua`');
+    if (parts.length < 2) return msg.channel.send('❌ Use: `/poll pergunta | opcao1 | opcao2`\nExemplo: `/poll Melhor linguagem? | Python | JavaScript | Lua`');
     const pergunta = parts[0];
     const opcoes = parts.slice(1);
     const emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
@@ -174,7 +174,7 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
   }},
 
   reputacao: { desc: 'Dar reputacao', aliases: ['rep'], usage: '@user', fn: async (msg, args) => {
-    if (!args[0]) return msg.channel.send('❌ Use: `!rep @user`');
+    if (!args[0]) return msg.channel.send('❌ Use: `/rep @user`');
     const mention = args[0].replace(/[<@!>]/g, '');
     if (mention === msg.author.id) return msg.channel.send('❌ Nao pode dar rep pra voce mesmo!');
     getUser(mention).reputation++;
@@ -216,12 +216,12 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
   }},
 
   say: { desc: 'Faz o bot falar', usage: '<texto>', fn: async (msg, args) => {
-    if (!args[0]) return msg.channel.send('❌ Use: `!say ola`');
+    if (!args[0]) return msg.channel.send('❌ Use: `/say ola`');
     await msg.channel.send(args.join(' '));
   }},
 
   rate: { desc: 'Avalia algo de 0 a 10', usage: '<algo>', fn: async (msg, args) => {
-    if (!args[0]) return msg.channel.send('❌ Use: `!rate pizza`');
+    if (!args[0]) return msg.channel.send('❌ Use: `/rate pizza`');
     const nota = Math.floor(Math.random() * 11);
     const bar = '⭐'.repeat(Math.round(nota / 2));
     await msg.channel.send(`${bar}\n**${args.join(' ')}**: **${nota}/10**`);
@@ -229,7 +229,7 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
 
   choose: { desc: 'Escolhe entre opcoes', usage: '<opcao1 | opcao2>', fn: async (msg, args) => {
     const parts = args.join(' ').split('|').map(s => s.trim()).filter(Boolean);
-    if (parts.length < 2) return msg.channel.send('❌ Use: `!choose pizza | sushi | hamburguer`');
+    if (parts.length < 2) return msg.channel.send('❌ Use: `/choose pizza | sushi | hamburguer`');
     const escolha = parts[Math.floor(Math.random() * parts.length)];
     await msg.channel.send(`🤔 Eu escolho... **${escolha}**!`);
   }},
@@ -237,7 +237,7 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
 
 
   definicao: { desc: 'Definicao do Urban Dictionary', usage: '<termo>', fn: async (msg, args) => {
-    if (!args[0]) return msg.channel.send('❌ Use: `!definicao poggers`');
+    if (!args[0]) return msg.channel.send('❌ Use: `/definicao poggers`');
     try {
       const res = await fetch(`https://api.urbandictionary.com/v0/define?term=${encodeURIComponent(args.join(' '))}`);
       const data = await res.json();
@@ -259,7 +259,7 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
   }},
 
   kick: { desc: 'Expulsar membro', usage: '@user [motivo]', ownerOnly: true, fn: async (msg, args) => {
-    if (!args[0]) return msg.channel.send('❌ Use: `!kick @user [motivo]`');
+    if (!args[0]) return msg.channel.send('❌ Use: `/kick @user [motivo]`');
     const user_id = args[0].replace(/[<@!>]/g, '');
     const reason = args.slice(1).join(' ') || 'Motivo não informado';
     try {

@@ -1,0 +1,15 @@
+=== TITLE ===
+Suggestion: Application Commands Support for Bots
+
+=== CURRENT PROBLEM ===
+Currently, bots can only use prefix commands (e.g., /ping, /help). Native commands like /shrug, /ban, /kick, /gif are built-in to the platform and appear in Fluxer's command menu, but bots cannot register their own commands there. Users need to type the prefix manually instead of using the slash command menu, which limits the bot experience.
+
+=== PROPOSED CHANGE ===
+Add an API endpoint (POST /v1/applications/{id}/commands) to allow bots to register their own application commands. These commands would then appear in Fluxer's / command menu, just like the native ones. The INTERACTION_CREATE gateway event type already exists, so adding the registration endpoint would complete the feature.
+
+=== ADDITIONAL INFORMATION ===
+This would make bot integration much more native and fluid, similar to Discord's slash command system. The @fluxerjs/core library removed interactions/slash commands support in v2.0.0 because the API doesn't have the registration endpoint yet.
+
+=== ACKNOWLEDGEMENTS ===
+[x] I searched existing discussions.
+[x] I have done a search for similar discussions.
