@@ -234,8 +234,10 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
     await msg.channel.send(`🤔 Eu escolho... **${escolha}**!`);
   }},
 
-  urban: { desc: 'Definicao do Urban Dictionary', usage: '<termo>', fn: async (msg, args) => {
-    if (!args[0]) return msg.channel.send('❌ Use: `!urban poggers`');
+
+
+  definicao: { desc: 'Definicao do Urban Dictionary', usage: '<termo>', fn: async (msg, args) => {
+    if (!args[0]) return msg.channel.send('❌ Use: `!definicao poggers`');
     try {
       const res = await fetch(`https://api.urbandictionary.com/v0/define?term=${encodeURIComponent(args.join(' '))}`);
       const data = await res.json();
