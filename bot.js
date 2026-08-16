@@ -263,9 +263,8 @@ const commands = {
   avatar: { desc: 'Avatar de um usuario', usage: '@user', fn: async (msg, args) => {
     let user = msg.author;
     if (args[0]) {
-      const mentionId = args[0].replace(/[<@!>]/g, '');
-      const fetched = await msg.guild.members.fetch(mentionId).catch(() => null);
-      if (fetched) user = fetched.user;
+      const mentioned = msg.mentions.users.first();
+      if (mentioned) user = mentioned;
     }
     const avatar = user.displayAvatarURL({ dynamic: true }) || '';
     const isBot = user.id === '1538273359882620929';
