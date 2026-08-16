@@ -24,7 +24,6 @@ Bot para o Fluxer, porta do aitrrL original.
 | `/coinflip` | Cara ou coroa |
 | `/perfil` | Seu perfil |
 | `/rep @user` | Dar reputacao |
-| `/daily` | Recompensa diaria |
 | `/coins` | Suas moedas |
 | `/ranking` | Leaderboard |
 | `/avatar` | Avatar |

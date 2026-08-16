@@ -36,7 +36,7 @@ function loadData() {
 }
 function saveData() { fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2)); }
 function getUser(id) {
-  if (!data.users[id]) data.users[id] = { xp: 0, level: 1, reputation: 0, coins: 0, daily: 0 };
+  if (!data.users[id]) data.users[id] = { xp: 0, level: 1, reputation: 0, coins: 0 };
   return data.users[id];
 }
 function addXP(id, amount) {
@@ -202,22 +202,6 @@ const commands = {
     getUser(mention).reputation++;
     saveData();
     await msg.channel.send('🏅 Reputacao dada!');
-  }},
-
-  daily: { desc: 'Recompensa diaria', fn: async (msg) => {
-    const u = getUser(msg.author.id);
-    const now = Date.now();
-    if (u.daily && now - u.daily < 86400000) {
-      const left = Math.ceil((86400000 - (now - u.daily)) / 3600000);
-      return msg.channel.send(`⏰ Volta em ${left}h!`);
-    }
-    u.daily = now;
-    u.coins += 50;
-    const lvlUp = addXP(msg.author.id, 25);
-    saveData();
-    let txt = `💰 **Daily!** +50 moedas, +25 XP`;
-    if (lvlUp) txt += `\n🎉 **Level Up!** Agora level ${u.level}!`;
-    await msg.channel.send(txt);
   }},
 
   coins: { desc: 'Suas moedas', fn: async (msg) => {
