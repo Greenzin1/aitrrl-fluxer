@@ -263,10 +263,10 @@ const commands = {
   avatar: { desc: 'Avatar de um usuario', usage: '@user', fn: async (msg, args) => {
     let user = msg.author;
     if (args[0]) {
-      const mentioned = msg.mentions.users.first();
+      const mentioned = msg.mentions?.[0] || msg.mentions?.users?.first?.() || null;
       if (mentioned) user = mentioned;
     }
-    const avatar = user.displayAvatarURL({ dynamic: true }) || '';
+    const avatar = user.displayAvatarURL?.({ dynamic: true }) || user.avatarURL?.() || '';
     const isBot = user.id === '1538273359882620929';
     const embed = new EmbedBuilder()
       .setTitle(`🖼️ ${user.username}`)
