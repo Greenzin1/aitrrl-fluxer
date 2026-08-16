@@ -267,12 +267,13 @@ const commands = {
       if (mentioned) user = mentioned;
     }
     const avatar = user.displayAvatarURL?.({ dynamic: true }) || user.avatarURL?.() || '';
-    const isBot = user.id === '1538273359882620929';
+    const botIds = ['1538273359882620929'];
+    const isBot = botIds.includes(user.id) || user.bot === true;
     const embed = new EmbedBuilder()
       .setTitle(`🖼️ ${user.username}`)
       .setImage({ url: avatar, width: 400, height: 400 })
       .setFooter({ text: isBot ? 'Sim, eu sei que sou muito fofa!' : 'Apesar de tudo, ainda é você.' })
-      .setColor(isBot ? 0xeb459e : 0x5865f2);
+      .setColor(isBot ? 15418782 : 5793266);
     await msg.channel.send({ embeds: [embed] });
   }},
 
