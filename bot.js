@@ -215,17 +215,7 @@ Vamos transformar o mundo em um lugar incrível, juntos <@${msg.author.id}>.`);
     await msg.channel.send(Math.random() > 0.5 ? '🪙 **Cara!**' : '🪙 **Coroa!**');
   }},
 
-  say: { desc: 'Faz o bot falar', usage: '<texto>', fn: async (msg, args) => {
-    if (!args[0]) return msg.channel.send('❌ Use: `/say ola`');
-    await msg.channel.send(args.join(' '));
-  }},
 
-  rate: { desc: 'Avalia algo de 0 a 10', usage: '<algo>', fn: async (msg, args) => {
-    if (!args[0]) return msg.channel.send('❌ Use: `/rate pizza`');
-    const nota = Math.floor(Math.random() * 11);
-    const bar = '⭐'.repeat(Math.round(nota / 2));
-    await msg.channel.send(`${bar}\n**${args.join(' ')}**: **${nota}/10**`);
-  }},
 
   choose: { desc: 'Escolhe entre opcoes', usage: '<opcao1 | opcao2>', fn: async (msg, args) => {
     const parts = args.join(' ').split('|').map(s => s.trim()).filter(Boolean);
