@@ -6,32 +6,29 @@ Bot para o Fluxer, porta do aitrrL original.
 
 | Comando | Descricao |
 |---------|-----------|
-| `!aitrrl` | Sobre o bot |
-| `!ping` | Latencia |
-| `!calc <expr>` | Calculadora |
-| `!oitobola` | Bola 8 magica |
-| `!reverso <texto>` | Reverte texto |
-| `!ship @u1 @u2` | Compatibilidade |
-| `!moeda` | Joga moeda |
-| `!dado` | Joga dado |
-| `!poll <pergunta>` | Enquete |
-| `!compliment` | Elogio |
-| `!insult` | Zoeira |
-| `!perfil` | Seu perfil |
-| `!rep @user` | Dar reputacao |
-| `!daily` | Recompensa diaria |
-| `!coins` | Suas moedas |
-| `!ranking` | Leaderboard |
-| `!avatar` | Avatar |
-| `!ajuda` | Ajuda |
-| `!stats` | Stats do bot |
+| `/aitrrl` | Sobre o bot |
+| `/ping` | Latencia |
+| `/calc <expr>` | Calculadora |
+| `/reverso <texto>` | Reverte texto |
+| `/ship @u1 @u2` | Compatibilidade |
+| `/moeda` | Joga moeda |
+| `/dado` | Joga dado |
+| `/poll <pergunta> \| <opcoes>` | Enquete |
+| `/compliment` | Elogio |
+| `/insult @user` | Zoeira |
+| `/perfil` | Seu perfil |
+| `/rep @user` | Dar reputacao |
+| `/daily` | Recompensa diaria |
+| `/coins` | Suas moedas |
+| `/ranking` | Leaderboard |
+| `/avatar` | Avatar |
+| `/say <texto>` | Faz o bot falar |
+| `/rate <algo>` | Avalia algo 0-10 |
+| `/choose <op1 \| op2>` | Escolhe entre opcoes |
+| `/urban <termo>` | Urban Dictionary |
+| `/ajuda` | Ajuda |
+| `/stats` | Stats do bot |
 
 ## Deploy
 
-1. Crie um bot em https://fluxer.app
-2. Copie o token
-3. Suba no Railway ou rode localmente com `node bot.js`
-
-## Licenca
-
-MIT
+Bot hospedado no Railway.
