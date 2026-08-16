@@ -273,7 +273,7 @@ const commands = {
       .setTitle(`🖼️ ${user.username}`)
       .setImage({ url: avatar, width: 400, height: 400 })
       .setFooter({ text: isBot ? 'Sim, eu sei que sou muito fofa!' : 'Apesar de tudo, ainda é você.' })
-      .setColor(isBot ? 15418782 : 5793266);
+      .setColor(0x5865f2);
     await msg.channel.send({ embeds: [embed] });
   }},
 
