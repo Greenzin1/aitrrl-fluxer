@@ -2,6 +2,10 @@
 
 Bot para o Fluxer, porta do aitrrL original.
 
+## Invite
+
+[Adicionar no servidor](https://web.fluxer.app/oauth2/authorize?client_id=1538273359882620929&permissions=8&scope=bot)
+
 ## Comandos
 
 | Comando | Descricao |
@@ -13,22 +17,25 @@ Bot para o Fluxer, porta do aitrrL original.
 | `/ship @u1 @u2` | Compatibilidade |
 | `/moeda` | Joga moeda |
 | `/dado` | Joga dado |
-| `/poll <pergunta> \| <opcoes>` | Enquete |
 | `/compliment` | Elogio |
 | `/insult @user` | Zoeira |
+| `/choose <op1 \| op2>` | Escolhe entre opcoes |
+| `/definicao <termo>` | Urban Dictionary |
+| `/coinflip` | Cara ou coroa |
 | `/perfil` | Seu perfil |
 | `/rep @user` | Dar reputacao |
 | `/daily` | Recompensa diaria |
 | `/coins` | Suas moedas |
 | `/ranking` | Leaderboard |
 | `/avatar` | Avatar |
-| `/say <texto>` | Faz o bot falar |
-| `/rate <algo>` | Avalia algo 0-10 |
-| `/choose <op1 \| op2>` | Escolhe entre opcoes |
-| `/urban <termo>` | Urban Dictionary |
-| `/ajuda` | Ajuda |
+| `/kick @user` | Expulsar membro |
+| `/ban @user` | Banir membro |
+| `/unban @user` | Desbanir membro |
+| `/aitrrl info` | Sobre o bot |
+| `/aitrrl ajuda` | Lista de comandos |
 | `/stats` | Stats do bot |
+| `/version` | Versao do bot |
 
 ## Deploy
 
-Bot hospedado no Railway.
+Bot hospedado no Belmo.
