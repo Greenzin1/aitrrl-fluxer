@@ -6,6 +6,8 @@ const path = require('path');
 const DATA_FILE = path.join(__dirname, 'data.json');
 const PREFIX = '/';
 const OWNER_ID = 'SEU_USER_ID_AQUI';
+const VERSION = '1.0';
+const VERSION_COMMITS = 0;
 
 let data = { users: {}, stats: { commandsUsed: 0, messagesSeen: 0, uptime: Date.now() }, polls: {}, pollCount: 0 };
 
@@ -323,6 +325,10 @@ const commands = {
       .setFooter({ text: isBot ? 'Sim, eu sei que sou muito fofa!' : 'Apesar de tudo, ainda é você.' })
       .setColor(0x5865f2);
     await msg.channel.send({ embeds: [embed] });
+  }},
+
+  version: { desc: 'Versao do bot', fn: async (msg) => {
+    await msg.channel.send(`🔧 **Versao:** ${VERSION}`);
   }},
 
   stats: { desc: 'Estatisticas do bot', fn: async (msg) => {
