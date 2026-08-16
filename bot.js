@@ -261,8 +261,15 @@ const commands = {
   }},
 
   avatar: { desc: 'Avatar de um usuario', fn: async (msg) => {
-    const avatar = msg.author.displayAvatarURL({ dynamic: true }) || 'Sem avatar';
-    await msg.channel.send(`🖼️ **Avatar:** ${avatar}`);
+    const user = msg.author;
+    const avatar = user.displayAvatarURL({ dynamic: true }) || '';
+    const isBot = user.id === '1538273359882620929';
+    const embed = new EmbedBuilder()
+      .setTitle(`🖼️ ${user.username}`)
+      .setImage(avatar)
+      .setDescription(isBot ? 'Sim, eu sei que sou muito fofa!' : 'Apesar de tudo, ainda é você.')
+      .setColor(isBot ? 0xeb459e : 0x5865f2);
+    await msg.channel.send({ embeds: [embed] });
   }},
 
   stats: { desc: 'Estatisticas do bot', fn: async (msg) => {
