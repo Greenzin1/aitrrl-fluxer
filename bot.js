@@ -1,7 +1,14 @@
 require('dotenv').config();
 const { Client, Events, Routes, EmbedBuilder } = require('@fluxerjs/core');
+const http = require('http');
 const fs = require('fs');
 const path = require('path');
+
+const PORT = process.env.PORT || 3000;
+http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('aitrrL is running');
+}).listen(PORT, () => console.log(`Health check on port ${PORT}`));
 
 const DATA_FILE = path.join(__dirname, 'data.json');
 const PREFIX = '/';
